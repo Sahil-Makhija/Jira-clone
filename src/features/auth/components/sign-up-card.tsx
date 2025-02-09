@@ -23,15 +23,7 @@ import {
 } from "@/components";
 
 // import { useRegister } from "../api/use-register";
-// import { signupSchema } from "../schemas";
-
-const signUpSchema = z.object({
-  name: z.string().min(4, "Atleasat 4 characters."),
-  email: z.string().email().trim(),
-  password: z.string().min(8, "Minimum 8 characters."),
-});
-
-type SignUpModel = z.infer<typeof signUpSchema>;
+import { SignUpModel, signUpSchema } from "@/features/schemas";
 
 export const SignUpCard = () => {
   // const { mutate, isPending } = useRegister();

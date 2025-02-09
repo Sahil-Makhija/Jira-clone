@@ -23,18 +23,10 @@ import {
 
 // import { useLogin } from "../api/use-login";
 // import { DottedSeparator } from "@/components/dotted-separator";
-// import { loginSchema } from "../schemas";
-//
-
-const signInSchema = z.object({
-  email: z.string().email().trim(),
-  password: z.string().min(8, "Minimum 8 characters."),
-});
-
-type SIgnInModel = z.infer<typeof signInSchema>;
+import { SignInModel, signInSchema } from "@/features/schemas";
 
 export const SignInCard = () => {
-  const signInForm = useForm<SIgnInModel>({
+  const signInForm = useForm<SignInModel>({
     defaultValues: {
       email: "",
       password: "",
@@ -47,7 +39,7 @@ export const SignInCard = () => {
     formState: { isSubmitting: isPending },
   } = signInForm;
 
-  const onSubmit: SubmitHandler<SIgnInModel> = (formData) => {
+  const onSubmit: SubmitHandler<SignInModel> = (formData) => {
     console.log(formData);
   };
 
