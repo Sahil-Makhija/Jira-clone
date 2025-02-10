@@ -3,13 +3,13 @@ import { InferRequestType, InferResponseType } from "hono";
 
 import { client } from "@/lib/rpc";
 
-type ResponseType = InferResponseType<(typeof client.api.login)["$post"]>;
-type RequestType = InferRequestType<(typeof client.api.login)["$post"]>;
+type ResponseType = InferResponseType<(typeof client.api.register)["$post"]>;
+type RequestType = InferRequestType<(typeof client.api.register)["$post"]>;
 
-export const useLogin = () => {
+export const useRegister = () => {
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ json }) => {
-      const response = await client.api.login.$post({ json });
+      const response = await client.api.register.$post({ json });
       return await response.json();
     },
   });

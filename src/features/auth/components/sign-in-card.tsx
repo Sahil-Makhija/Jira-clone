@@ -21,8 +21,7 @@ import {
   DottedSeparator,
 } from "@/components";
 
-// import { useLogin } from "../api/use-login";
-// import { DottedSeparator } from "@/components/dotted-separator";
+import { useLogin } from "../api/use-login";
 import { SignInModel, signInSchema } from "@/features/schemas";
 
 export const SignInCard = () => {
@@ -35,12 +34,10 @@ export const SignInCard = () => {
     resolver: zodResolver(signInSchema),
   });
 
-  const {
-    formState: { isSubmitting: isPending },
-  } = signInForm;
+  const { mutate: signIn, isPending } = useLogin();
 
   const onSubmit: SubmitHandler<SignInModel> = (formData) => {
-    console.log(formData);
+    signIn({ json: formData });
   };
 
   return (

@@ -22,19 +22,11 @@ import {
   Button,
 } from "@/components";
 
-// import { useRegister } from "../api/use-register";
+import { useRegister } from "../api/use-register";
 import { SignUpModel, signUpSchema } from "@/features/schemas";
 
 export const SignUpCard = () => {
-  // const { mutate, isPending } = useRegister();
-  // const form = useForm<z.infer<typeof signupSchema>>({
-  // 	resolver: zodResolver(signupSchema),
-  // 	defaultValues: {
-  // 		name: "",
-  // 		email: "",
-  // 		password: "",
-  // 	},
-  // });
+  const { mutate: signUp, isPending } = useRegister();
 
   const signUpForm = useForm<SignUpModel>({
     defaultValues: {
@@ -47,7 +39,7 @@ export const SignUpCard = () => {
   });
 
   const onSubmit: SubmitHandler<SignUpModel> = (formData) => {
-    console.log(formData);
+    signUp({ json: formData });
   };
 
   return (
@@ -123,11 +115,7 @@ export const SignUpCard = () => {
               )}
             />
 
-            <Button
-              // disabled={isPending}
-              size="lg"
-              className="w-full"
-            >
+            <Button disabled={isPending} size="lg" className="w-full">
               Sign Up
             </Button>
           </form>
@@ -138,7 +126,7 @@ export const SignUpCard = () => {
       </div>
       <CardContent className="p-7 flex flex-col gap-y-4">
         <Button
-          //   disabled={isPending}
+          disabled={isPending}
           variant="secondary"
           size="lg"
           className="w-full"
@@ -147,7 +135,7 @@ export const SignUpCard = () => {
           Login with Google
         </Button>
         <Button
-          //   disabled={isPending}
+          disabled={isPending}
           variant="secondary"
           size="lg"
           className="w-full"
