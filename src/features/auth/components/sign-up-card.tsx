@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,8 +21,8 @@ import {
   Button,
 } from "@/components";
 
-import { useRegister } from "../api/use-register";
 import { SignUpModel, signUpSchema } from "@/features/schemas";
+import { useRegister } from "../api/use-register";
 
 export const SignUpCard = () => {
   const { mutate: signUp, isPending } = useRegister();
