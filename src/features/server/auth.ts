@@ -8,8 +8,13 @@ import { createAdminClient } from "@/lib/appwrite";
 import { apiErrorHandler } from "@/lib/api-error-handler";
 
 import { AUTH_COOKIE, SESSION_MAX_AGE } from "../constants";
+import { sessionMiddleware } from "@/lib/session-middleware";
 
 export const auth = new Hono()
+  .get("/current", sessionMiddleware, async (c) => {
+    const user = c.get("user");
+    return c.json({ user }, 200);
+  })
   .post("/login", zValidator("json", signInSchema), async (c) => {
     const { email, password } = c.req.valid("json");
     const { account } = await createAdminClient();
@@ -55,7 +60,9 @@ export const auth = new Hono()
       return c.json({ error: error_msg }, code);
     }
   })
-  .post("/logout", async (c) => {
+  .post("/logout", sessionMiddleware, async (c) => {
+    const account = c.get("account");
+    await account.deleteSession("current");
     deleteCookie(c, AUTH_COOKIE);
-    return c.json({ success: true });
+    return c.json({ success: true }, 200);
   });

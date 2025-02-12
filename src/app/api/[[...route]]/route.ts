@@ -12,7 +12,7 @@ app.get("/hello", (c) => {
   });
 });
 
-const routes = app.route("/", auth);
+const routes = app.route("/auth", auth);
 
 export const GET = handle(app);
 export const POST = handle(app);
