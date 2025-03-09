@@ -22,7 +22,7 @@ import {
 } from "@/components";
 
 import { useLogin } from "../api/use-login";
-import { SignInModel, signInSchema } from "@/features/schemas";
+import { SignInModel, signInSchema } from "@/features/auth/schema";
 
 export const SignInCard = () => {
   const signInForm = useForm<SignInModel>({

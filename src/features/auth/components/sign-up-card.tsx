@@ -21,7 +21,7 @@ import {
   Button,
 } from "@/components";
 
-import { SignUpModel, signUpSchema } from "@/features/schemas";
+import { SignUpModel, signUpSchema } from "@/features/auth/schema";
 import { useRegister } from "../api/use-register";
 
 export const SignUpCard = () => {
