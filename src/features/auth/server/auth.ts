@@ -7,7 +7,7 @@ import { signInSchema, signUpSchema } from "@/features/auth/schema";
 import { createAdminClient } from "@/lib/appwrite";
 import { apiErrorHandler } from "@/lib/api-error-handler";
 
-import { AUTH_COOKIE, SESSION_MAX_AGE } from "../constants";
+import { AUTH_COOKIE, SESSION_MAX_AGE } from "@/config";
 import { sessionMiddleware } from "@/lib/session-middleware";
 
 export const auth = new Hono()

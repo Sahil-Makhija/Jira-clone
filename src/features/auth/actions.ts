@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { Account, Client } from "node-appwrite";
-import { AUTH_COOKIE } from "./constants";
+import { AUTH_COOKIE } from "@/config";
 
 export async function getCurrent() {
   try {

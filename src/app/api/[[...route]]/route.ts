@@ -1,6 +1,7 @@
-import { auth } from "@/features";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
+
+import { auth, workspaces } from "@/features";
 
 export const runtime = "edge";
 
@@ -12,7 +13,7 @@ app.get("/hello", (c) => {
   });
 });
 
-const routes = app.route("/auth", auth);
+const routes = app.route("/auth", auth).route("/workspaces", workspaces);
 
 export const GET = handle(app);
 export const POST = handle(app);

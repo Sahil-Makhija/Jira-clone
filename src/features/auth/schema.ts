@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const signInSchema = z.object({
   email: z.string().email().trim(),
-  password: z.string().min(8, "Minimum 8 characters."),
+  password: z.string(),
 });
 
 export type SignInModel = z.infer<typeof signInSchema>;

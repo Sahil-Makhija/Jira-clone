@@ -14,7 +14,7 @@ import {
 } from "node-appwrite";
 import { createMiddleware } from "hono/factory";
 
-import { AUTH_COOKIE } from "@/features/constants";
+import { AUTH_COOKIE } from "@/config";
 
 type AdditionalContext = {
   Variables: {
