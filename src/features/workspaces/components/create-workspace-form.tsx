@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { ImageIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -22,6 +23,7 @@ import {
   Button,
   Avatar,
   AvatarFallback,
+  DialogTitle,
 } from "@/components";
 import { cn } from "@/lib/utils";
 
@@ -30,9 +32,15 @@ import { useCreateWorkspace } from "../api/use-create-workspace";
 
 interface CreateWorkspaceFormProps {
   onCancel?: () => void;
+  underModal?: boolean;
 }
 
-export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
+export const CreateWorkspaceForm = ({
+  onCancel,
+  underModal,
+}: CreateWorkspaceFormProps) => {
+  const router = useRouter();
+
   const imageRef = useRef<HTMLInputElement>(null);
 
   // TODO: After successful creation and form reset, `upload image` doesn't work
@@ -53,8 +61,9 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
     createWorkspace(
       { form: { name, image } },
       {
-        onSuccess: () => {
+        onSuccess: ({ data: { $id } }) => {
           form.reset();
+          router.push(`/workspaces/${$id}`);
         },
       }
     );
@@ -62,12 +71,12 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
 
   const { mutate: createWorkspace, isPending } = useCreateWorkspace();
 
+  const Header = underModal ? DialogTitle : CardTitle;
+
   return (
     <Card className="w-full h-full border-none shadow-none">
       <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">
-          Create a new workspace
-        </CardTitle>
+        <Header className="text-xl font-bold">Create a new workspace</Header>
       </CardHeader>
       <div className="px-7">
         <DottedSeparator />

@@ -10,7 +10,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { useGetWorkspaces, useWorkspaceId, WorkspaceAvatar } from "@/features";
+import {
+  useCreateWorkspaceModal,
+  useGetWorkspaces,
+  useWorkspaceId,
+  WorkspaceAvatar,
+} from "@/features";
 
 export const WorkspaceSwitcher = () => {
   const router = useRouter();
@@ -20,6 +25,7 @@ export const WorkspaceSwitcher = () => {
   };
 
   const workspaceId = useWorkspaceId();
+  const { open } = useCreateWorkspaceModal();
 
   const { data } = useGetWorkspaces();
 
@@ -28,7 +34,7 @@ export const WorkspaceSwitcher = () => {
       <div className="flex items-center justify-between">
         <p className="text-xs uppercase text-neutral-500">Workspaces</p>
         <RiAddCircleFill
-          onClick={() => {}}
+          onClick={open}
           className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition"
         />
       </div>
