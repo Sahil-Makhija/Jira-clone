@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { WorkspaceAvatar } from "@/features";
+import { useGetWorkspaces, useWorkspaceId, WorkspaceAvatar } from "@/features";
 
 export const WorkspaceSwitcher = () => {
   const router = useRouter();
@@ -19,10 +19,9 @@ export const WorkspaceSwitcher = () => {
     router.push(`/workspaces/${id}`);
   };
 
-  const workspaceId = "workspaceId";
-  const workspaces: {
-    documents: Array<{ name: string; imageUrl?: string; $id: string }>;
-  } = { documents: [] };
+  const workspaceId = useWorkspaceId();
+
+  const { data } = useGetWorkspaces();
 
   return (
     <div className="flex flex-col gap-y-2">
@@ -38,7 +37,7 @@ export const WorkspaceSwitcher = () => {
           <SelectValue placeholder="No workspace selected." />
         </SelectTrigger>
         <SelectContent>
-          {workspaces.documents.map((workspace) => (
+          {data?.documents.map((workspace) => (
             <SelectItem key={workspace.$id} value={workspace.$id}>
               <div className="flex justify-start items-center gap-3 font-medium">
                 <WorkspaceAvatar

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { DottedSeparator } from "../shared";
+import { DottedSeparator, WorkspaceSwitcher } from "../shared";
 import { Navigation } from "./navigation";
 
 // import WorkspaceSwitcher from "./workspace-switcher";
@@ -12,7 +12,7 @@ export const Sidebar = () => {
         <Image src="/logo.svg" alt="logo" width={164} height={48} />
       </Link>
       <DottedSeparator className="my-4" />
-      {/* <WorkspaceSwitcher /> */}
+      <WorkspaceSwitcher />
       <DottedSeparator className="my-7" />
       <Navigation />
     </aside>

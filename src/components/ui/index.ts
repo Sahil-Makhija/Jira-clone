@@ -16,3 +16,4 @@ export * from "./avatar";
 export * from "./form";
 export * from "./dialog";
 export * from "./dropdown-menu";
+export * from "./drawer";
