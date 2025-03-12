@@ -1,16 +1,16 @@
 import { redirect } from "next/navigation";
 
-import { getCurrent } from "@/features/actions/server";
-import { CreateWorkspaceForm } from "@/features/components/workspaces";
-
-// TODO: Redirect to the workspace page if logged in
+import { getCurrentUser, getWorkspaces } from "@/features/actions/server";
 
 export default async function Home() {
-  const user = await getCurrent();
-  if (!user) redirect("/sign-in");
-  return (
-    <div className="">
-      <CreateWorkspaceForm />
-    </div>
-  );
+  const user = await getCurrentUser();
+  const workspaces = await getWorkspaces();
+
+  if (!user || !workspaces) {
+    redirect("/sign-in");
+  } else if (workspaces.total === 0) {
+    redirect("/workspaces/create");
+  } else {
+    redirect(`/workspaces/${workspaces.documents[0].$id}`);
+  }
 }

@@ -1,9 +1,11 @@
 // import "server-only";
 
+import { createMiddleware } from "hono/factory";
 import { getCookie } from "hono/cookie";
+
 import {
   Account,
-  Client,
+  Client as AppwriteClient,
   Databases,
   Storage,
   Models,
@@ -12,7 +14,6 @@ import {
   type Storage as StorageType,
   type Users as UsersType,
 } from "node-appwrite";
-import { createMiddleware } from "hono/factory";
 
 import { AUTH_COOKIE } from "@/config";
 
@@ -25,36 +26,47 @@ type AdditionalContext = {
     user: Models.User<Models.Preferences>;
   };
 };
+
 export const sessionMiddleware = createMiddleware<AdditionalContext>(
   async (c, next) => {
-    const client = new Client()
-      .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!) // Your API Endpoint
-      .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!); // Your project ID
+    const client = new AppwriteClient()
+      .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
+      .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!);
 
     const session = getCookie(c, AUTH_COOKIE);
 
     if (!session) {
       return c.json(
         {
-          error: "Unauthorized",
+          error: "Unauthenticated!",
         },
         401
       );
     }
 
-    client.setSession(session);
+    try {
+      client.setSession(session);
 
-    const account = new Account(client);
-    const databases = new Databases(client);
-    const storage = new Storage(client);
+      const account = new Account(client);
+      const databases = new Databases(client);
+      const storage = new Storage(client);
 
-    const user = await account.get();
+      const user = await account.get();
 
-    c.set("account", account);
-    c.set("databases", databases);
-    c.set("storage", storage);
-    c.set("user", user);
+      c.set("account", account);
+      c.set("databases", databases);
+      c.set("storage", storage);
+      c.set("user", user);
 
-    await next();
+      await next();
+    } catch (error) {
+      // Handle invalid/expired session
+      return c.json(
+        {
+          error: "Invalid or expired session",
+        },
+        401
+      );
+    }
   }
 );

@@ -18,6 +18,13 @@ export const useRegister = () => {
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ json }) => {
       const response = await client.api.auth.register.$post({ json });
+
+      if (!response.ok) {
+        // @ts-ignore
+        const { error } = await response.json();
+        throw new Error(error);
+      }
+
       return await response.json();
     },
     onSuccess: () => {

@@ -10,6 +10,7 @@ export const useCurrent = () => {
     queryFn: async () => {
       const response = await client.api.auth.current["$get"]();
 
+      // TODO: Clear cookie and redirect to `/sign-in`
       if (!response.ok) {
         return null;
       }

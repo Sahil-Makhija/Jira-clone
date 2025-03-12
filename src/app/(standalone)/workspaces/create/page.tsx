@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 
-import { getCurrent } from "@/features/actions/server";
+import { getCurrentUser } from "@/features/actions/server";
 import { CreateWorkspaceForm } from "@/features/components/workspaces";
 
 const WorkspaceCreatePage = async () => {
-  const user = await getCurrent();
+  const user = await getCurrentUser();
 
   if (!user) redirect("/sign-in");
 

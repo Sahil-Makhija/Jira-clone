@@ -16,10 +16,10 @@ export const auth = new Hono()
     return c.json({ user }, 200);
   })
   .post("/login", zValidator("json", signInSchema), async (c) => {
-    const { email, password } = c.req.valid("json");
-    const { account } = await createAdminClient();
-
     try {
+      const { email, password } = c.req.valid("json");
+      const { account } = await createAdminClient();
+
       const session = await account.createEmailPasswordSession(email, password);
 
       setCookie(c, AUTH_COOKIE, session.secret, {
@@ -32,7 +32,7 @@ export const auth = new Hono()
 
       return c.json({ success: true }, 200);
     } catch (error) {
-      const { code, error_msg } = apiErrorHandler(error);
+      const { code, error: error_msg } = apiErrorHandler(error);
       return c.json({ error: error_msg }, code);
     }
   })
@@ -56,7 +56,7 @@ export const auth = new Hono()
 
       return c.json({ success: true });
     } catch (error) {
-      const { code, error_msg } = apiErrorHandler(error);
+      const { code, error: error_msg } = apiErrorHandler(error);
       return c.json({ error: error_msg }, code);
     }
   })
