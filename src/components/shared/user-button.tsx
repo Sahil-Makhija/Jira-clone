@@ -12,8 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components";
 
-import { useLogout } from "@/features/auth/api/use-logout";
-import { useCurrent } from "@/features/auth/api/use-current";
+import { useLogout, useCurrent } from "@/features/actions/client";
 
 export const UserButton = () => {
   const { data: user, isLoading } = useCurrent();

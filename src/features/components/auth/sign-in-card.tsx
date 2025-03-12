@@ -21,8 +21,8 @@ import {
   DottedSeparator,
 } from "@/components";
 
-import { useLogin } from "../api/use-login";
-import { SignInModel, signInSchema } from "@/features/auth/schema";
+import { useLogin } from "@/features/actions/client";
+import { SignInModel, signInSchema } from "@/features/schemas";
 
 export const SignInCard = () => {
   const signInForm = useForm<SignInModel>({

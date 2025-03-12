@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
-import { getCurrent } from "@/features/auth/actions";
-import { CreateWorkspaceForm } from "@/features";
+import { getCurrent } from "@/features/actions/server";
+import { CreateWorkspaceForm } from "@/features/components/workspaces";
 
 // TODO: Redirect to the workspace page if logged in
 

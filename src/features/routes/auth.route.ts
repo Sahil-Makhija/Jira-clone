@@ -3,7 +3,7 @@ import { zValidator } from "@hono/zod-validator";
 import { deleteCookie, setCookie } from "hono/cookie";
 import { ID } from "node-appwrite";
 
-import { signInSchema, signUpSchema } from "@/features/auth/schema";
+import { signInSchema, signUpSchema } from "@/features/schemas";
 import { createAdminClient } from "@/lib/appwrite";
 import { apiErrorHandler } from "@/lib/api-error-handler";
 

@@ -21,8 +21,8 @@ import {
   Button,
 } from "@/components";
 
-import { SignUpModel, signUpSchema } from "@/features/auth/schema";
-import { useRegister } from "../api/use-register";
+import { useRegister } from "@/features/actions/client";
+import { SignUpModel, signUpSchema } from "@/features/schemas";
 
 export const SignUpCard = () => {
   const { mutate: signUp, isPending } = useRegister();

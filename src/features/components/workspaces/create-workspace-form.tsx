@@ -27,8 +27,11 @@ import {
 } from "@/components";
 import { cn } from "@/lib/utils";
 
-import { CreateWorkspaceModel, createWorkspaceSchema } from "../schema";
-import { useCreateWorkspace } from "../api/use-create-workspace";
+import { useCreateWorkspace } from "@/features/actions/client";
+import {
+  CreateWorkspaceModel,
+  createWorkspaceSchema,
+} from "@/features/schemas";
 
 interface CreateWorkspaceFormProps {
   onCancel?: () => void;

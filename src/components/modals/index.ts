@@ -1,2 +1,2 @@
 export * from "./create-workspace-modal";
-export * from "./responsice-modal";
+export * from "./responsive-modal";

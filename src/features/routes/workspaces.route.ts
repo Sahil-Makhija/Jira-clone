@@ -2,12 +2,12 @@ import { Hono } from "hono";
 import { ID, Query } from "node-appwrite";
 import { zValidator } from "@hono/zod-validator";
 
-import { MemberRole } from "@/features";
+import { MemberRole } from "@/features/types";
 import { DB_ID, MEMBERS_ID, STORAGE_ID, WORKSPACES_ID } from "@/config";
 import { generateInviteCode } from "@/lib/utils";
 import { sessionMiddleware } from "@/lib/session-middleware";
 
-import { createWorkspaceSchema } from "../schema";
+import { createWorkspaceSchema } from "@/features/schemas";
 
 export const workspaces = new Hono()
   .post(

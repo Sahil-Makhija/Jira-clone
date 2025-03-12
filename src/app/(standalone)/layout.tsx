@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { UserButton } from "@/features";
+import { UserButton } from "@/components";
 
 interface StandaloneLayoutProps {
   children: React.ReactNode;

@@ -1,4 +1,5 @@
-import { UserButton } from "@/features/";
+import { UserButton } from "@/components";
+
 import { MobileSidebar } from "./mobile-sidebar";
 
 // import MobileSidebar from "./mobile-sidebar";

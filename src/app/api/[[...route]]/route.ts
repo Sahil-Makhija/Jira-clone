@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 
-import { auth, workspaces } from "@/features";
+import { auth, workspaces } from "@/features/routes";
 
 export const runtime = "edge";
 
