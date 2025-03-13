@@ -17,7 +17,7 @@ import {
 
 import { AUTH_COOKIE } from "@/config";
 
-type AdditionalContext = {
+export type AdditionalContext = {
   Variables: {
     account: AccountType;
     databases: DatabasesType;
