@@ -5,9 +5,12 @@ import { zValidator } from "@hono/zod-validator";
 import { MemberRole } from "@/features/types";
 import { DB_ID, MEMBERS_ID, STORAGE_ID, WORKSPACES_ID } from "@/config";
 import { generateInviteCode } from "@/lib/utils";
-import { sessionMiddleware } from "@/lib/session-middleware";
+import { memberMiddleware, sessionMiddleware } from "@/lib/middlewares";
 
-import { createWorkspaceSchema } from "@/features/schemas";
+import {
+  createWorkspaceSchema,
+  updateWorkspaceSchema,
+} from "@/features/schemas";
 
 export const workspaces = new Hono()
   .post(
@@ -21,7 +24,7 @@ export const workspaces = new Hono()
 
       const { name, image } = c.req.valid("form");
 
-      let uploadedImageUrl: string | undefined;
+      let uploadedImageUrl = image;
 
       if (image instanceof File) {
         const file = await storage.createFile(STORAGE_ID, ID.unique(), image);
@@ -73,4 +76,41 @@ export const workspaces = new Hono()
     ]);
 
     return c.json({ data: workspaces });
-  });
+  })
+  .patch(
+    "/:workspaceId",
+    sessionMiddleware,
+    memberMiddleware,
+    zValidator("form", updateWorkspaceSchema),
+    async (c) => {
+      const storage = c.get("storage");
+      const databases = c.get("databases");
+
+      const { workspaceId } = c.req.param();
+      const { image, name } = c.req.valid("form");
+
+      let uploadedImageUrl = image;
+
+      if (image instanceof File) {
+        const file = await storage.createFile(STORAGE_ID, ID.unique(), image);
+        const imageBuffer = await storage.getFilePreview(STORAGE_ID, file.$id);
+
+        uploadedImageUrl = `data:image/png;base64,${Buffer.from(
+          imageBuffer
+        ).toString("base64")}`;
+      }
+
+      // TODO : prevent same name for single user
+      const workspace = await databases.updateDocument(
+        DB_ID,
+        WORKSPACES_ID,
+        workspaceId,
+        {
+          name,
+          imageUrl: uploadedImageUrl,
+        }
+      );
+
+      return c.json({ data: workspace });
+    }
+  );

@@ -8,7 +8,7 @@ import { createAdminClient } from "@/lib/appwrite";
 import { apiErrorHandler } from "@/lib/api-error-handler";
 
 import { AUTH_COOKIE, SESSION_MAX_AGE } from "@/config";
-import { sessionMiddleware } from "@/lib/session-middleware";
+import { sessionMiddleware } from "@/lib/middlewares";
 
 export const auth = new Hono()
   .get("/current", sessionMiddleware, async (c) => {

@@ -1,1 +1,2 @@
-export * from "./membsers.type";
+export * from "./member.type";
+export * from "./workspace.type";
