@@ -26,6 +26,8 @@ export const workspaces = new Hono()
 
       let uploadedImageUrl = image;
 
+      console.log({ uploadedImageUrl });
+
       if (image instanceof File) {
         const file = await storage.createFile(STORAGE_ID, ID.unique(), image);
         const imageBuffer = await storage.getFilePreview(STORAGE_ID, file.$id);
@@ -33,6 +35,8 @@ export const workspaces = new Hono()
         uploadedImageUrl = `data:image/png;base64,${Buffer.from(
           imageBuffer
         ).toString("base64")}`;
+      } else if (image === "undefined") {
+        uploadedImageUrl = undefined;
       }
 
       // TODO : prevent same name for single user
@@ -51,7 +55,7 @@ export const workspaces = new Hono()
       await databases.createDocument(DB_ID, MEMBERS_ID, ID.unique(), {
         userId: user.$id,
         workspaceId: workspace.$id,
-        role: MemberRole.MEMBER,
+        role: MemberRole.ADMIN,
       });
       return c.json({ data: workspace });
     }
@@ -113,4 +117,13 @@ export const workspaces = new Hono()
 
       return c.json({ data: workspace });
     }
-  );
+  )
+  .delete("/:workspaceId", sessionMiddleware, memberMiddleware, async (c) => {
+    const { workspaceId } = c.req.param();
+    const databases = c.get("databases");
+
+    // TODO: Delete projects, tasks & members.
+
+    await databases.deleteDocument(DB_ID, WORKSPACES_ID, workspaceId);
+    return c.json({ data: { $id: workspaceId } });
+  });

@@ -24,6 +24,6 @@ export const memberMiddleware = createMiddleware<AdditionalContext, routes>(
       return c.json({ error: "Unauthorized" });
     }
 
-    next();
+    await next();
   }
 );

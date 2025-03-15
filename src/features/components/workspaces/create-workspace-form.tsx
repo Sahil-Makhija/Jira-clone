@@ -55,12 +55,14 @@ export const CreateWorkspaceForm = ({
   };
 
   const form = useForm<CreateWorkspaceModel>({
-    defaultValues: { name: "" },
+    defaultValues: { name: "", image: undefined },
     resolver: zodResolver(createWorkspaceSchema),
     mode: "onSubmit",
   });
 
   const onSubmit: SubmitHandler<CreateWorkspaceModel> = ({ name, image }) => {
+    console.log({ name, image });
+
     createWorkspace(
       { form: { name, image } },
       {

@@ -14,6 +14,8 @@ export const useCreateWorkspace = () => {
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ form }) => {
+      console.log(form.image, typeof form.image);
+
       const response = await client.api.workspaces.$post({ form });
       if (!response.ok) {
         throw new Error("Something went wrong!");
