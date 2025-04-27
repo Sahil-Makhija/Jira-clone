@@ -34,8 +34,11 @@ import {
 import { Workspace } from "@/features/types";
 import {
   useDeleteWorkspace,
+  useResetInviteCode,
   useUpdateWorkspace,
 } from "@/features/actions/client";
+import { toast } from "sonner";
+import { useConfirm } from "@/hooks";
 
 interface UpdateWorkspaceFormProps {
   onCancel?: () => void;
@@ -59,9 +62,22 @@ export const UpdateWorkspaceForm = ({
     }
   };
 
+  const [DeleteDialog, confirmDelete] = useConfirm({
+    title: "Delete Workspace",
+    message: "This action cannot be undone.",
+    variant: "destructive",
+  });
+
+  const [ResetDialog, confirmReset] = useConfirm({
+    title: "Reset Invite Link",
+    message: "This will invalidate the current invite link",
+    variant: "destructive",
+  });
+
   const { mutate: deleteWorkspace, isPending: isDeletingWorkspace } =
     useDeleteWorkspace();
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    if (!(await confirmDelete())) return;
     deleteWorkspace(
       { param: { workspaceId: defaultValues.$id } },
       {
@@ -70,6 +86,20 @@ export const UpdateWorkspaceForm = ({
         },
       }
     );
+  };
+
+  const fullInviteLink = `${window.location.origin}/workspaces/${defaultValues.$id}/join/${defaultValues.inviteCode}`;
+  const handleCopyInviteLink = () => {
+    navigator.clipboard
+      .writeText(fullInviteLink)
+      .then(() => toast.success("Invite link copied to clipboard."));
+  };
+
+  const { mutate: resetInviteCode, isPending: isResettingInviteCode } =
+    useResetInviteCode();
+  const handleResetInviteCode = async () => {
+    if (!(await confirmReset())) return;
+    resetInviteCode({ param: { workspaceId: defaultValues.$id } });
   };
 
   const form = useForm<UpdateWorkspaceModel>({
@@ -94,8 +124,8 @@ export const UpdateWorkspaceForm = ({
 
   return (
     <div className="flex flex-col gap-y-4">
-      {/* <DeleteDialog />
-      <ResetDialog /> */}
+      <DeleteDialog />
+      <ResetDialog />
       <Card className="w-full h-full border-none shadow-none">
         <CardHeader className="flex flex-row items-center gap-x-4 p-7 space-y-0">
           <Button
@@ -234,7 +264,7 @@ export const UpdateWorkspaceForm = ({
             </p>
             <div className="mt-4">
               <div className="flex items-center gap-x-2">
-                {/* <Input disabled value={fullInviteLink} /> */}
+                <Input disabled value={fullInviteLink} />
                 <Button
                   // onClick={handleCopyInviteLink}
                   variant="secondary"
@@ -250,8 +280,8 @@ export const UpdateWorkspaceForm = ({
               size="sm"
               variant="destructive"
               type="button"
-              // disabled={isPending || isResettingInviteCode}
-              // onClick={handleResetInviteCode}
+              disabled={isPending || isResettingInviteCode}
+              onClick={handleResetInviteCode}
             >
               Reset Invite Link
             </Button>
@@ -272,8 +302,8 @@ export const UpdateWorkspaceForm = ({
               size="sm"
               variant="destructive"
               type="button"
-              // disabled={isPending || isDeletingWorkspace}
-              // onClick={handleDelete}
+              disabled={isPending || isDeletingWorkspace}
+              onClick={handleDelete}
             >
               Delete Workspace
             </Button>

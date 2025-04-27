@@ -1,6 +1,7 @@
-import { getCurrentUser, getWorkspaceById } from "@/features/actions/server";
-import { UpdateWorkspaceForm } from "@/features/components/workspaces/update-workspace-form";
 import { redirect } from "next/navigation";
+
+import { getCurrentUser, getWorkspaceById } from "@/features/actions/server";
+import { UpdateWorkspaceForm } from "@/features/components/workspaces";
 
 const WorkspaceIdSettingsPage = async ({
   params,

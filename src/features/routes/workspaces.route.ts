@@ -126,4 +126,22 @@ export const workspaces = new Hono()
 
     await databases.deleteDocument(DB_ID, WORKSPACES_ID, workspaceId);
     return c.json({ data: { $id: workspaceId } });
-  });
+  })
+  .post(
+    "/:workspaceId/reset-invite-code",
+    sessionMiddleware,
+    memberMiddleware,
+    async (c) => {
+      const { workspaceId } = c.req.param();
+      const databases = c.get("databases");
+
+      const workspace = await databases.updateDocument(
+        DB_ID,
+        WORKSPACES_ID,
+        workspaceId,
+        { inviteCode: generateInviteCode(6) }
+      );
+
+      return c.json({ data: workspace });
+    }
+  );
