@@ -20,5 +20,9 @@ export const updateWorkspaceSchema = z.object({
     .optional(),
 });
 
+export const joinWorkspaceSchema = z.object({
+  inviteCode: z.string(),
+});
+
 export type CreateWorkspaceModel = z.infer<typeof createWorkspaceSchema>;
 export type UpdateWorkspaceModel = z.infer<typeof updateWorkspaceSchema>;
