@@ -266,7 +266,7 @@ export const UpdateWorkspaceForm = ({
               <div className="flex items-center gap-x-2">
                 <Input disabled value={fullInviteLink} />
                 <Button
-                  // onClick={handleCopyInviteLink}
+                  onClick={handleCopyInviteLink}
                   variant="secondary"
                   className="size-12"
                 >
