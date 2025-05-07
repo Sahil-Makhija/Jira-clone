@@ -16,8 +16,8 @@ import {
 export const workspaces = new Hono()
   .post(
     "/",
-    sessionMiddleware,
     zValidator("form", createWorkspaceSchema),
+    sessionMiddleware,
     async (c) => {
       const databases = c.get("databases");
       const user = c.get("user");
@@ -84,9 +84,9 @@ export const workspaces = new Hono()
   })
   .patch(
     "/:workspaceId",
+    zValidator("form", updateWorkspaceSchema),
     sessionMiddleware,
     memberMiddleware,
-    zValidator("form", updateWorkspaceSchema),
     async (c) => {
       const storage = c.get("storage");
       const databases = c.get("databases");
