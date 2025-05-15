@@ -26,6 +26,7 @@ export const getWorkspaces = async () => {
 
     return workspaces;
   } catch (error) {
+    console.error(error);
     return null;
   }
 };
@@ -56,6 +57,7 @@ export const getWorkspaceById = async ({
 
     return workspace;
   } catch (error) {
+    console.error(error);
     return undefined;
   }
 };

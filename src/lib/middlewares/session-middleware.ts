@@ -60,6 +60,7 @@ export const sessionMiddleware = createMiddleware<AdditionalContext>(
 
       await next();
     } catch (error) {
+      console.error(error);
       // Handle invalid/expired session
       return c.json(
         {

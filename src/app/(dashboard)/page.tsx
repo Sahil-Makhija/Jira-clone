@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 
 import { getCurrentUser, getWorkspaces } from "@/features/actions/server";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const user = await getCurrentUser();
   const workspaces = await getWorkspaces();

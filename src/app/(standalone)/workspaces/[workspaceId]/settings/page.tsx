@@ -6,7 +6,7 @@ import { UpdateWorkspaceForm } from "@/features/components/workspaces";
 const WorkspaceIdSettingsPage = async ({
   params,
 }: {
-  params: { workspaceId: string };
+  params: Promise<{ workspaceId: string }>;
 }) => {
   const user = await getCurrentUser();
   if (!user) {

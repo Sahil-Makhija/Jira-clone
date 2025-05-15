@@ -8,6 +8,7 @@ export async function getCurrentUser() {
 
     return await account.get();
   } catch (error) {
+    console.error(error);
     return null;
   }
 }

@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/features/actions/server";
 import { CreateWorkspaceForm } from "@/features/components/workspaces";
 
+export const dynamic = "force-dynamic";
+
 const WorkspaceCreatePage = async () => {
   const user = await getCurrentUser();
 

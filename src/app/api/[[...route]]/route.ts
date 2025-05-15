@@ -9,7 +9,7 @@ const app = new Hono().basePath("/api");
 
 app.get("/hello", (c) => {
   return c.json({
-    message: "Hello Next.js!",
+    message: "Hello from Hono!",
   });
 });
 
@@ -18,9 +18,9 @@ const routes = app
   .route("/workspaces", workspaces)
   .route("/projects", projects);
 
-export const GET = handle(app);
-export const POST = handle(app);
-export const PATCH = handle(app);
-export const DELETE = handle(app);
+export const GET = handle(routes);
+export const POST = handle(routes);
+export const PATCH = handle(routes);
+export const DELETE = handle(routes);
 
 export type AppType = typeof routes;
