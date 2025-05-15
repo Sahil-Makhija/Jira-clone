@@ -20,9 +20,7 @@ export const useRegister = () => {
       const response = await client.api.auth.register.$post({ json });
 
       if (!response.ok) {
-        // @ts-ignore
-        const { error } = await response.json();
-        throw new Error(error);
+        throw new Error("Something went wrong.");
       }
 
       return await response.json();
