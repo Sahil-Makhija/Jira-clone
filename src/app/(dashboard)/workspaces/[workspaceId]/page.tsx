@@ -5,7 +5,7 @@ import { getCurrentUser } from "@/features/actions/server";
 const WorkspaceIdPage = async ({
   params,
 }: {
-  params: { workspaceId: string };
+  params: Promise<{ workspaceId: string }>;
 }) => {
   const user = await getCurrentUser();
   if (!user) {
