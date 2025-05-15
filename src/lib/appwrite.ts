@@ -1,13 +1,13 @@
 import "server-only";
 
-import { AUTH_COOKIE } from "@/config";
+import { APPWRITE_ENDPOINT, APPWRITE_PROJECT, AUTH_COOKIE } from "@/config";
 import { cookies } from "next/headers";
 import { Client as AppwriteClient, Account } from "node-appwrite";
 
 export async function createAdminClient() {
   const client = new AppwriteClient()
-    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
-    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!)
+    .setEndpoint(APPWRITE_ENDPOINT!)
+    .setProject(APPWRITE_PROJECT!)
     .setKey(process.env.NEXT_APPWRITE_KEY!);
 
   return {
