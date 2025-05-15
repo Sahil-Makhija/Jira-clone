@@ -8,7 +8,7 @@ import { JoinWorkspaceForm } from "@/features/components/workspaces";
 const WorkspaceIdJoinPage = async ({
   params,
 }: {
-  params: { workspaceId: string; inviteCode: string };
+  params: Promise<{ workspaceId: string; inviteCode: string }>;
 }) => {
   const user = await getCurrentUser();
   if (!user) {
