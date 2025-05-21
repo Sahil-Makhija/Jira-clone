@@ -7,6 +7,10 @@ export const getWorkspaces = async () => {
   try {
     const client = await createSessionClient();
 
+    if (!client) {
+      return null;
+    }
+
     const user = await new Account(client).get();
     const databases = new Databases(client);
 
@@ -38,6 +42,9 @@ export const getWorkspaceById = async ({
 }) => {
   try {
     const client = await createSessionClient();
+    if (!client) {
+      return null;
+    }
     const user = await new Account(client).get();
     const databases = new Databases(client);
 

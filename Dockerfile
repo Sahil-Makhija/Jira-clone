@@ -1,34 +1,36 @@
-# === Build Stage ===
-FROM oven/bun:latest AS builder
-
-WORKDIR /app
-
-# Copy dependency files first for better caching
-COPY package.json bun.lock ./
-RUN bun install
-
-# Now copy the source code
-COPY . .
-RUN bun run build
-
-# === Production Stage ===
 FROM oven/bun:latest
 
 WORKDIR /app
 
-# Copy only what's needed for production
-COPY --from=builder /app/package.json /app/bun.lock ./
-# Since node_modules is in .dockerignore, we need the installed dependencies from builder
-COPY --from=builder /app/node_modules ./node_modules
-# Since .next is in .dockerignore, we need the built app from builder
-COPY --from=builder /app/.next ./.next
-# Any other necessary files for production
-COPY --from=builder /app/public ./public
+# Declare build-time arguments
+ARG NEXT_PUBLIC_APP_URL
+ARG NEXT_PUBLIC_APPWRITE_ENDPOINT
+ARG NEXT_PUBLIC_APPWRITE_PROJECT
+ARG NEXT_PUBLIC_APPWRITE_DATABASE_ID
+ARG NEXT_PUBLIC_APPWRITE_WORKSPACES_ID
+ARG NEXT_PUBLIC_APPWRITE_STORAGE_ID
+ARG NEXT_PUBLIC_APPWRITE_MEMBERS_ID
+ARG NEXT_PUBLIC_APPWRITE_PROJECTS_ID
 
-# Run as non-root user for better security
-USER node
+# Export them as environment variables so `bun run build` can access them
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+ENV NEXT_PUBLIC_APPWRITE_ENDPOINT=$NEXT_PUBLIC_APPWRITE_ENDPOINT
+ENV NEXT_PUBLIC_APPWRITE_PROJECT=$NEXT_PUBLIC_APPWRITE_PROJECT
+ENV NEXT_PUBLIC_APPWRITE_DATABASE_ID=$NEXT_PUBLIC_APPWRITE_DATABASE_ID
+ENV NEXT_PUBLIC_APPWRITE_WORKSPACES_ID=$NEXT_PUBLIC_APPWRITE_WORKSPACES_ID
+ENV NEXT_PUBLIC_APPWRITE_STORAGE_ID=$NEXT_PUBLIC_APPWRITE_STORAGE_ID
+ENV NEXT_PUBLIC_APPWRITE_MEMBERS_ID=$NEXT_PUBLIC_APPWRITE_MEMBERS_ID
+ENV NEXT_PUBLIC_APPWRITE_PROJECTS_ID=$NEXT_PUBLIC_APPWRITE_PROJECTS_ID
+
+COPY package.json ./
+COPY bun.lock ./
+
+
+RUN bun install
+COPY . .
+
+RUN bun run build
 
 EXPOSE 3000
 
-CMD ["bun", "start"]
-
+CMD bun run start
