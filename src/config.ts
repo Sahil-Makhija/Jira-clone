@@ -11,3 +11,4 @@ export const STORAGE_ID = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_ID!;
 
 export const AUTH_COOKIE = "session";
 export const SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
+export const COOKIE_SECURE_FLAG = !!process.env.COOKIE_SECURE_FLAG || false;  //?: set to true in production (when using https)

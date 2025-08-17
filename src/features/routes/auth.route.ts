@@ -7,7 +7,7 @@ import { signInSchema, signUpSchema } from "@/features/schemas";
 import { createAdminClient } from "@/lib/appwrite";
 import { apiErrorHandler } from "@/lib/api-error-handler";
 
-import { AUTH_COOKIE, SESSION_MAX_AGE } from "@/config";
+import { AUTH_COOKIE, COOKIE_SECURE_FLAG, SESSION_MAX_AGE } from "@/config";
 import { sessionMiddleware } from "@/lib/middlewares";
 
 export const auth = new Hono()
@@ -26,7 +26,7 @@ export const auth = new Hono()
         httpOnly: true,
         path: "/",
         sameSite: "strict",
-        secure: true,
+        secure: COOKIE_SECURE_FLAG,
         maxAge: SESSION_MAX_AGE,
       });
 
@@ -50,7 +50,7 @@ export const auth = new Hono()
         httpOnly: true,
         path: "/",
         sameSite: "strict",
-        secure: true,
+        secure: false, //TODO: set to true in production (when using https)
         maxAge: SESSION_MAX_AGE, // 30 days
       });
 
